@@ -31,6 +31,14 @@ var SampleApp = function() {
             console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
             self.ipaddress = "127.0.0.1";
         };
+        var data = fs.readFileSync('./config.json');
+	try {
+		self.config_values = JSON.parse(data);
+		console.log(self.config_values);
+	}
+	catch (err) {
+		console.log(err);
+	}
     };
 
 
@@ -84,6 +92,9 @@ var SampleApp = function() {
         });
     };
 
+    self.createURL = function() {
+          return 'http://api.meetup.com/2/events.' + self.config_values.format + '/?group_id=' + self.config_values.group_ids.join(",") + '&text_format=plain&key=' + self.config_values.API_key;
+    }
 
     /*  ================================================================  */
     /*  App server functions (main app logic here).                       */
@@ -106,13 +117,17 @@ var SampleApp = function() {
         };
         
         self.routes['/events'] = function(req, res) {
-          request('http://api.meetup.com/2/events.json/\?group_id\=11208472,6642512\&text_format\=plain\&key\=24e2f8517430501120642774654e', function(error, response, body) {
+	  console.log(self.config_values);
+          request(self.createURL(), function(error, response, body) {
             if (error)
               res.send(error);
             else
               res.send(body);
           });
         };
+
+	self.routes['/jobs'] = function(req, res) {
+	  res.send('jobs endpoint');
     };
 
 
@@ -135,10 +150,10 @@ var SampleApp = function() {
      *  Initializes the sample application.
      */
     self.initialize = function() {
-        self.setupVariables();
+	self.setupVariables();
         self.populateCache();
-        self.setupTerminationHandlers();
-
+	self.setupTerminationHandlers();
+	
         // Create the express server and routes.
         self.initializeServer();
     };
