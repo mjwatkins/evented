@@ -142,7 +142,7 @@ var SampleApp = function() {
         };
 
 	self.routes['/jobs'] = function(req, res) {
-	  res.send('jobs endpoint');
+	  res.send(self.jobs.jobs);
         };
     };
 
