@@ -2,7 +2,7 @@
 //  OpenShift sample Node application
 var express = require('express');
 var fs      = require('fs');
-
+var request = require('request');
 
 /**
  *  Define the sample application.
@@ -104,6 +104,15 @@ var SampleApp = function() {
             res.setHeader('Content-Type', 'text/html');
             res.send(self.cache_get('index.html') );
         };
+        
+        self.routes['/events'] = function(req, res) {
+          request('http://api.meetup.com/2/events.json/\?group_id\=11208472,6642512\&key\=24e2f8517430501120642774654e', function(error, response, body) {
+            if (error)
+              res.send(error);
+            else
+              res.send(body);
+          });
+        };
     };
 
 
@@ -156,4 +165,3 @@ var SampleApp = function() {
 var zapp = new SampleApp();
 zapp.initialize();
 zapp.start();
-
