@@ -1,0 +1,31 @@
+{
+	"jobs": [
+		{
+			"org_name":"Code For Dayton",
+			"url":"http://www.meetup.com/Code-for-Dayton/",
+			"contact_name":"Dave Caraway",
+			"contact_phone":"555-5555",
+			"contact_email":"dave@fogmine.com",
+			"type":"meetup",
+			"group_id":"11208472"
+		},
+		{
+			"org_name":"IgniteTech",
+			"url":"http://www.meetup.com/Ignite-Tech/",
+			"contact_name":"Blake Glenn",
+			"contact_phone":"555-5555",
+			"contact_email":"x.@x.com",
+			"type":"meetup",
+			"group_id":"6642512"
+		},
+		{
+			"org_name":"Dayton Web Developers",
+			"url":"http://www.meetup.com/dayton-web-developers/",
+			"contact_name":"Keith Engelhardt",
+			"contact_phone":"555-5555",
+			"contact_email":"x.@x.com",
+			"type":"meetup",
+			"group_id":"439015"
+		}
+	]
+}
