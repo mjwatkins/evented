@@ -101,12 +101,16 @@ var SampleApp = function() {
         });
     };
 
-    self.createURL = function() {
+    self.createURL = function(params) {
       var group_ids = "";
       for (var i = 0; i < self.jobs.jobs.length; i++) {
         if (self.jobs.jobs[i].type === 'meetup')
           group_ids += (i !== 0 ? "," : "") + self.jobs.jobs[i].group_id; 
-      } 
+      }
+      
+      if (params.complete !== undefined)
+        status = 'completed';
+
       var url = 'http://api.meetup.com/2/events.' + self.config_values.format + '/?group_id=' + group_ids + '&text_format=plain&key=' + self.config_values.API_key;
       console.log(url);
       return url;
@@ -133,7 +137,7 @@ var SampleApp = function() {
         };
         
         self.routes['/events'] = function(req, res) {
-          request(self.createURL(), function(error, response, body) {
+          request(self.createURL(req.query), function(error, response, body) {
             if (error)
               res.send(error);
             else
