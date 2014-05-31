@@ -39,6 +39,15 @@ var SampleApp = function() {
 	catch (err) {
 		console.log(err);
 	}
+
+	data = fs.readFileSync('jobs.json');
+	try {
+		self.jobs = JSON.parse(data);
+		console.log(self.jobs);
+	}
+	catch (err) {
+		console.log(err);
+	}	
     };
 
 
@@ -93,7 +102,14 @@ var SampleApp = function() {
     };
 
     self.createURL = function() {
-          return 'http://api.meetup.com/2/events.' + self.config_values.format + '/?group_id=' + self.config_values.group_ids.join(",") + '&text_format=plain&key=' + self.config_values.API_key;
+      var group_ids = "";
+      for (var i = 0; i < self.jobs.jobs.length; i++) {
+        if (self.jobs.jobs[i].type === 'meetup')
+          group_ids += (i !== 0 ? "," : "") + self.jobs.jobs[i].group_id; 
+      } 
+      var url = 'http://api.meetup.com/2/events.' + self.config_values.format + '/?group_id=' + group_ids + '&text_format=plain&key=' + self.config_values.API_key;
+      console.log(url);
+      return url;
     }
 
     /*  ================================================================  */
@@ -117,7 +133,6 @@ var SampleApp = function() {
         };
         
         self.routes['/events'] = function(req, res) {
-	  console.log(self.config_values);
           request(self.createURL(), function(error, response, body) {
             if (error)
               res.send(error);
@@ -128,6 +143,7 @@ var SampleApp = function() {
 
 	self.routes['/jobs'] = function(req, res) {
 	  res.send('jobs endpoint');
+        };
     };
 
 
